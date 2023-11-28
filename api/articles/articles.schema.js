@@ -7,6 +7,14 @@ const articleSchema = Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
+  etat: {
+    type: String,
+    enum: {
+      values: ["draft, published"],
+      default: "draft",
+      message: '{VALUE} is not supported'
+    } 
+  }
 });
 
 let Article;
