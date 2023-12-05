@@ -3,8 +3,10 @@ const UnauthorizedError = require("../../errors/unauthorized");
 const jwt = require("jsonwebtoken");
 const config = require("../../config");
 const usersService = require("./users.service");
+const articlesService = require("../articles/articles.service")
 
 class UsersController {
+
   async getAll(req, res, next) {
     try {
       const users = await usersService.getAll();
@@ -13,6 +15,7 @@ class UsersController {
       next(err);
     }
   }
+
   async getById(req, res, next) {
     try {
       const id = req.params.id;
@@ -25,6 +28,7 @@ class UsersController {
       next(err);
     }
   }
+
   async create(req, res, next) {
     try {
       const user = await usersService.create(req.body);
@@ -35,6 +39,7 @@ class UsersController {
       next(err);
     }
   }
+
   async update(req, res, next) {
     try {
       const id = req.params.id;
@@ -46,6 +51,7 @@ class UsersController {
       next(err);
     }
   }
+
   async delete(req, res, next) {
     try {
       const id = req.params.id;
@@ -56,6 +62,7 @@ class UsersController {
       next(err);
     }
   }
+
   async login(req, res, next) {
     try {
       const { email, password } = req.body;
@@ -73,6 +80,17 @@ class UsersController {
       next(err);
     }
   }
+
+  async getArticlesByUserId(req, res, next) {
+    try {
+      const userId = req.params.userId;
+      const articles = await articlesService.getAllByUser(userId);
+      res.json(articles);
+    } catch (err) {
+      next(err);
+    }
+  }
+
 }
 
 module.exports = new UsersController();

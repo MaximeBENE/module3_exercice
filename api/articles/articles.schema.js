@@ -1,25 +1,31 @@
 const { Schema, model } = require("mongoose");
 
 const articleSchema = Schema({
-  title: String,
-  content: String,
+  title: {
+    type: String,
+    required: [true, "Title is required"],
+  },
+  content: {
+    type: String,
+    required: [true, "Content is required"],
+  },
   user: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    required: true,
   },
-  etat: {
+  state: {
     type: String,
     enum: {
-      values: ["draft, published"],
+      values: ["draft", "published"],
       default: "draft",
-      message: '{VALUE} is not supported'
-    } 
-  }
+      message: "{VALUE} inconnue",
+    },
+    required: true,
+  },
 });
 
-let Article;
-
-module.exports = Article = model("Article", articleSchema);
+module.exports = model("Article", articleSchema);
 
 /*async function test() {
   const articles = await Article.find().populate({
